@@ -1,13 +1,13 @@
 package java8.ex07;
 
-import org.junit.Test;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 /**
  * Exercice 07 - Stream Parallel - Effet de bord
@@ -29,7 +29,7 @@ public class Stream_07_Test {
         private long total;
 
         private void add(long value) {
-            total += value;
+            total+=value;
         }
     }
 

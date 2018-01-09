@@ -1,18 +1,16 @@
 package java8.ex08;
 
-import java8.data.Data;
-import java8.data.domain.Order;
-import java8.data.domain.Pizza;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import org.junit.Test;
+
+import java8.data.Data;
+import java8.data.domain.Pizza;
 
 /**
  * Exercice 08 - Stream Parallel - Collections
