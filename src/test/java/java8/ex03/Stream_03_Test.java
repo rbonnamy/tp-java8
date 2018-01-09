@@ -44,7 +44,7 @@ public class Stream_03_Test {
 
         // TODO construire une Map <Client, Commandes effectuées par le client
         Map<Customer, List<Order>> result = orders.stream()
-        		.collect(Collectors.groupingBy(o -> o.getCustomer(), Collectors.toList()));
+        		.collect(Collectors.groupingBy(o -> o.getCustomer()));
 
         assertThat(result.size(), is(2));
         assertThat(result.get(new Customer(1)), hasSize(4));
@@ -65,14 +65,19 @@ public class Stream_03_Test {
     }
 
     @Test
-    public void test_mapping() throws Exception {
+    public void test_toMap() throws Exception {
 
         List<Customer> customers = new Data().getCustomers();
 
         // TODO Construire la map Sexe -> Chaîne représentant les prénoms des clients
         Map<Gender, String> result = customers.stream()
-        		.sorted((c1, c2) -> c1.getFirstname().compareTo(c2.getFirstname()))
+        		.sorted(Comparator.comparing(c -> c.getFirstname()))
         		.collect(Collectors.toMap(c->c.getGender(), c->c.getFirstname(), (a,b) -> a+"|"+b));
+        
+        // Exemple de méthode mapping
+        List<String> result2 = customers.stream()
+        		.sorted(Comparator.comparing(c -> c.getFirstname()))
+        		.collect(Collectors.mapping(c -> c.getFirstname(), Collectors.toList()));
 
         assertThat(result.get(Gender.F), is("Alexandra|Marion|Sophie"));
         assertThat(result.get(Gender.M), is("Cyril|Johnny"));

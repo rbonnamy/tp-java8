@@ -1,12 +1,12 @@
 package java8.ex04;
 
 
-import org.junit.Test;
+import static org.hamcrest.Matchers.arrayContaining;
+import static org.junit.Assert.assertThat;
 
 import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Exercice 04 - Stream

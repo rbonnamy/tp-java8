@@ -73,7 +73,6 @@ public class Stream_05_Test {
 
 				// TODO construire une MAP (clé = année de naissance, valeur = somme
 				// des nombres de naissance de l'année)
-				ArrayList<Naissance> listNaissance = new ArrayList<Naissance>();
 				Map<String, Integer> result = lines.skip(1).map(str -> {
 					String[] infos = str.split(";");
 					Naissance n = new Naissance(infos[1], infos[2], Integer.parseInt(infos[3]));

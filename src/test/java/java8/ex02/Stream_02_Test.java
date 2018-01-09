@@ -7,15 +7,12 @@ import static org.junit.Assert.assertThat;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 import org.junit.Test;
 
 import java8.data.Data;
 import java8.data.domain.Customer;
 import java8.data.domain.Order;
-import java8.data.domain.Pizza;
 
 /**
  * Exercice 02 - Transformation
@@ -42,8 +39,13 @@ public class Stream_02_Test {
 		// TODO calculer les statistiques sur les prix des pizzas vendues
 		// TODO utiliser l'opération summaryStatistics
 		IntSummaryStatistics result = orders.stream()
-									.flatMap(o -> o.getPizzas().stream())
-									.collect(Collectors.summarizingInt(p->p.getPrice()));
+									.flatMapToInt(o -> o.getPizzas().stream().mapToInt(p -> p.getPrice()))
+									.summaryStatistics();
+		
+		// ALternative avec la méthode flatMap puis Collectors.summarizingInt
+		IntSummaryStatistics result2 = orders.stream()
+				                     .flatMap(o -> o.getPizzas().stream())
+				                     .collect(Collectors.summarizingInt(p -> p.getPrice()));
 		
 		assertThat(result.getSum(), is(10900L));
 		assertThat(result.getMin(), is(1000));
