@@ -1,15 +1,18 @@
 package java8.ex05;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.summingInt;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import static java.util.stream.Collectors.*;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -117,12 +120,29 @@ public class Stream_05_Test {
 
 				// TODO construire une MAP (clé = année de naissance, valeur = maximum de nombre de naissances)
 				// TODO utiliser la méthode "collectingAndThen" à la suite d'un "grouping"
+				
+				// Etape 1 : je produis une map avec en clé l'année de naissance et en valeur la liste de 
+				// naissances correspondante
+				Map<String, List<Naissance>> result1 = lines.skip(1).map(str -> {
+					String[] infos = str.split(";");
+					Naissance n = new Naissance(infos[1], infos[2], Integer.parseInt(infos[3]));
+					return n;
+				}).collect(groupingBy(n -> n.getAnnee()));
+				
+				// Etape 2 : je traite la liste de naissances avec une fonction maxBy qui produit un Optional<Naissance>
+				Map<String, Optional<Naissance>> result2 = lines.skip(1).map(str -> {
+					String[] infos = str.split(";");
+					Naissance n = new Naissance(infos[1], infos[2], Integer.parseInt(infos[3]));
+					return n;
+				}).collect(groupingBy(n -> n.getAnnee(), maxBy(Comparator.comparingInt(n -> n.getNombre()))));
+				
+				// Etape 3 : j'utile la fonction collectingAndThen pour récupérer la naissance qui est stockée
+				// dans l'optional une fois l'opération de collecte (maxBy) terminée
 				Map<String, Naissance> result = lines.skip(1).map(str -> {
 					String[] infos = str.split(";");
 					Naissance n = new Naissance(infos[1], infos[2], Integer.parseInt(infos[3]));
 					return n;
-				}).collect(groupingBy(n -> n.getAnnee(),
-						collectingAndThen(maxBy(Comparator.comparingInt(n -> n.getNombre())), opt -> opt.get())));
+				}).collect(groupingBy(n -> n.getAnnee(), collectingAndThen(maxBy(Comparator.comparingInt(n -> n.getNombre())), opt -> opt.get())));
 
 				assertThat(result.get("2015").getNombre(), is(38));
 				assertThat(result.get("2015").getJour(), is("20150909"));
