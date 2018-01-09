@@ -137,7 +137,9 @@ public class Stream_05_Test {
 				}).collect(groupingBy(n -> n.getAnnee(), maxBy(Comparator.comparingInt(n -> n.getNombre()))));
 				
 				// Etape 3 : j'utile la fonction collectingAndThen pour récupérer la naissance qui est stockée
-				// dans l'optional une fois l'opération de collecte (maxBy) terminée
+				// dans l'optional une fois l'opération de collecte (maxBy) terminée.
+				// Il faut comprendre le deuxième paramètre de la méthode collectingAndThen comme un post-traitement
+				// effectué sur le maxBy.
 				Map<String, Naissance> result = lines.skip(1).map(str -> {
 					String[] infos = str.split(";");
 					Naissance n = new Naissance(infos[1], infos[2], Integer.parseInt(infos[3]));
