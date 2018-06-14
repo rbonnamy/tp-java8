@@ -25,7 +25,7 @@ public class DateAndTime_07_Test {
 
         // TODO transformer la date en Instant
         Instant instant = date.toInstant();
-        ZonedDateTime ofInstant = ZonedDateTime.ofInstant(instant, ZoneId.of(ZoneId.SHORT_IDS.get("ECT"))); // ou ZoneId.of("Europe/Paris")
+        ZonedDateTime ofInstant = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault()); // ou ZoneId.of("Europe/Paris")
 
         // TODO transformer la date en LocalDate
         LocalDate result = ofInstant.toLocalDate();
